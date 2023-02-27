@@ -56,7 +56,14 @@ public class Banco {
      *         máximo de cuentas ya se alcanzó
      */
     public boolean abrirCuenta(CuentaBancaria cuenta) {
-        // Si se ha llegado al máximo de cuentas (100) devuelve false y no se ejecutará el resto
+        /*
+         * Si se ha llegado al máximo de cuentas (100) devuelve false y no se
+         * ejecutará el resto. Esta comprobación está implementada también en el
+         * método main para ahorrar al usuario el trabajo de introducir todos
+         * los datos si ya se alcanzó el límite, pero añado esta comprobación
+         * aquí por si se añaden nuevas cuentas de manera "manual" llamando a
+         * este método, o se cambia el main en el futuro.
+         */
         if (this.contadorCuentas == this.NUM_MAXIMO_CUENTAS) {
             return false;
         }
@@ -138,7 +145,7 @@ public class Banco {
              * devuelve true
              */
             cuenta.setSaldo(cuenta.getSaldo() + cantidad);
-            System.out.println("Se ha ingresado la cantidad de: " + String.format("%.2f€",cantidad)
+            System.out.println("Se ha ingresado la cantidad de: " + String.format("%.2f€", cantidad)
                     + "\nEl nuevo saldo de la cuenta es: " + String.format("%.2f€", cuenta.getSaldo()));
             return true;
         }
@@ -233,8 +240,8 @@ public class Banco {
                     System.out.println("La cuenta ha quedado al descubierto."
                             + ((comision < cuentaEmpresa.getComisionFijaDescubierto())
                             ? "Esta operación tiene una comisión fija por descubierto de " + String.format("%.2f€", comision)
-                            : "Esta operación tiene una comisión del " + String.format("%.2f%%", cuentaEmpresa.getTipoInteresDescubierto()) 
-                                    + String.format("\s(%.2f€)",comision))
+                            : "Esta operación tiene una comisión del " + String.format("%.2f%%", cuentaEmpresa.getTipoInteresDescubierto())
+                            + String.format("\s(%.2f€)", comision))
                             + "\nEl saldo de la cuenta es: " + String.format("%.2f€", cuentaEmpresa.getSaldo()));
                     return true;
                 }

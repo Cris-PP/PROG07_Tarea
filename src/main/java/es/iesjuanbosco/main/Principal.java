@@ -376,8 +376,6 @@ public class Principal {
 //        BANCO.abrirCuenta(cuentaCorrientePersonal);
 //        CuentaCorrienteEmpresa cuentaCorrienteEmpresa = new CuentaCorrienteEmpresa(titular, 5000.0, "ES12345678901234567892", "BANCO SANTANDER", 2000.0, 4.5, 30.0);
 //        BANCO.abrirCuenta(cuentaCorrienteEmpresa);
-
-
         // Variables para almacenar temporalmente datos introducidos por el usuario
         String iban;
         double cantidad = 0;
@@ -409,6 +407,7 @@ public class Principal {
 
         // Se muestra el menú completo y después empieza el bucle principal
         System.out.print(MENU_COMPLETO);
+
         do {
             flagMensajeCorto = true;
             try {
@@ -420,9 +419,15 @@ public class Principal {
                      * Abrir nueva cuenta - Se llama al método
                      * formularioNuevaCuenta() declarado en esta misma clase
                      */
-                    case 1 ->
-                        formularioNuevaCuenta();
-
+                    case 1 -> {
+                        // Si se ha alcanzado el límite de cuentas se muestra un mensaje
+                        if (BANCO.getContadorCuentas() < 100) {
+                            System.out.println("¡Se ha alcanzado el límite de cuentas!");
+                        } else {
+                        // Si hay espacio para más cuentas se hace la llamada al método con el formulario
+                            formularioNuevaCuenta();
+                        }
+                    }
                     case 2 -> { // Listado de cuentas
                         /*
                          * Obtenemos el número de cuentas creadas. También
@@ -462,27 +467,31 @@ public class Principal {
                     }
                     // Datos de cuenta
                     case 3 -> {
-                        System.out.println("""
+                        // Si no hay cuentas creadas esto no se ejecutará
+                        if (BANCO.getContadorCuentas() > 0) {
+                            System.out.println("""
                                            \n----------------------
                                            |   DATOS DE CUENTA  |
                                            ----------------------""");
-                        /*
-                         * Llamamos al método pedirIBAN() para solicitar al
-                         * usuario el IBAN del cual se quieren los datos
-                         */
-                        iban = pedirIBAN();
-                        /*
-                         * Si el usuario canceló la operación introduciendo X
-                         * (como da la opción el propio método) esto no se
-                         * ejecutará
-                         */
-                        if (!iban.equals("X")) {
-                            System.out.println(BANCO.esCuentaExistente(iban) ? "\n" + BANCO.informacionCuenta(iban)
-                                    : "\n¡No existe ninguna cuenta con ese IBAN!");
-                        } else { // Si el usuario canceló la operación se muestra un mensaje
-                            System.out.println("¡Operación cancelada!");
+                            /*
+                             * Llamamos al método pedirIBAN() para solicitar al
+                             * usuario el IBAN del cual se quieren los datos
+                             */
+                            iban = pedirIBAN();
+                            /*
+                             * Si el usuario canceló la operación introduciendo
+                             * X (como da la opción el propio método) esto no se
+                             * ejecutará
+                             */
+                            if (!iban.equals("X")) {
+                                System.out.println(BANCO.esCuentaExistente(iban) ? "\n" + BANCO.informacionCuenta(iban)
+                                        : "\n¡No existe ninguna cuenta con ese IBAN!");
+                            } else { // Si el usuario canceló la operación se muestra un mensaje
+                                System.out.println("¡Operación cancelada!");
+                            }
+                        } else { // Si no hay cuentas creadas se muestra un mensaje
+                            System.out.println("¡Aún no hay cuentas creadas!");
                         }
-
                     }
                     // Ingresar efectivo en cuenta
                     case 4 -> {
