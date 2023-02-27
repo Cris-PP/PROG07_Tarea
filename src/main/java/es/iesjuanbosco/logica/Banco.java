@@ -139,7 +139,7 @@ public class Banco {
              */
             cuenta.setSaldo(cuenta.getSaldo() + cantidad);
             System.out.println("Se ha ingresado la cantidad de: " + cantidad
-                    + "\nEl nuevo saldo de la cuenta es: " + cuenta.getSaldo());
+                    + "\nEl nuevo saldo de la cuenta es: " + String.format("%.2f€", cuenta.getSaldo()));
             return true;
         }
     }
@@ -158,6 +158,7 @@ public class Banco {
      */
     public boolean retiradaCuenta(String iban, double cantidad) {
         CuentaBancaria cuenta = this.buscadorCuenta(iban);
+        double comision, deudaValorAbsoluto;
         /*
          * Descartamos cantidades negativas. Esto también se comprueba en el
          * main para volver a solicitar una cantidad correcta.
@@ -191,28 +192,51 @@ public class Banco {
                     System.out.println("La cantidad introducida es superior al saldo disponible + descubierto máximo");
                     return false;
                     /*
-                     * Si la cantidad deja al descubierto la cuenta, se muestra
-                     * mensaje y se aplica la comisión fija por descubierto.
+                     * Si la cantidad retirada es mayor que el saldo disponible
+                     * en la cuenta, se calcula la deuda y se aplica la comisión
+                     * correspondiente.
                      *
-                     * Esta comisión suele ser un porcentaje el cual tiene un
-                     * mínimo prefijado (por ejemplo 4,5% con un mínimo de 15€)
-                     * pero como no se especifica nada en el enunciado lo trato
-                     * como si fuera una cantidad predefinida. De querer
-                     * aplicarlo así no sería complicado, se declararía una
-                     * constante con la comisión mínima, se compararía con la
-                     * comisión con porcentaje, y si esta es inferior se
-                     * restaría la comisión mínima en lugar de la comisión
-                     * calculada.
+                     * En este caso, se muestra un mensaje que advierte que la
+                     * cuenta ha quedado con un descubierto descubierto y se
+                     * aplica una comisión por descubierto.
+                     *
+                     * La cuantía de la comisión se calcula obteniendo el valor
+                     * absoluto del descubierto y aplicándole el tipo de
+                     * interés. Si el resultado es inferior al mínimo de
+                     * comisión fija se aplica ese mínimo en lugar del valor
+                     * calculado.
+                     *
+                     * Lo he hecho así porque normalmente se da esa situación
+                     * (4-5% de interés con un mínimo de X euros), y no sabía si
+                     * el enunciado se refería al nominal anual o a ese interés.
                      */
                 } else if (cantidad > cuentaEmpresa.getSaldo()) {
-                    cuentaEmpresa.setSaldo(cuentaEmpresa.getSaldo() - cantidad - cuentaEmpresa.getComisionFijaDescubierto());
-                    System.out.println("""
-                                   La cuenta ha quedado al descubierto.
-                                   Esta operación tiene una comisión fija por descubierto de:\s"""
-                            + cuentaEmpresa.getComisionFijaDescubierto() + '€'
-                            + "\nEl nuevo saldo de la cuenta es: " + String.format("%.2f", cuentaEmpresa.getSaldo()) + '€');
+                    // Cálculo de la deuda
+                    deudaValorAbsoluto = Math.abs(cuentaEmpresa.getSaldo() - cantidad);
+                    // Se le aplica el interés
+                    comision = cuentaEmpresa.getTipoInteresDescubierto() / 100 * deudaValorAbsoluto;
+                    /*
+                     * Si la cantidad de la comisión es inferior a la comisión
+                     * fija se establece la comisión fija por descubierto
+                     */
+                    if (comision < cuentaEmpresa.getComisionFijaDescubierto()) {
+                        comision = cuentaEmpresa.getComisionFijaDescubierto();
+                    }
+                    // Se asigna el nuevo saldo
+                    cuentaEmpresa.setSaldo(cuentaEmpresa.getSaldo() - cantidad - comision);
+                    /*
+                     * Se imprime mensaje informando de la cuantía de la
+                     * comisión aplicada y del nuevo saldo. Dependiendo de si se
+                     * ha aplicado una comisión fija o el porcentaje se muestra
+                     * un mensaje u otro.
+                     */
+                    System.out.println("La cuenta ha quedado al descubierto."
+                            + ((comision < cuentaEmpresa.getComisionFijaDescubierto())
+                            ? "Esta operación tiene una comisión fija por descubierto de " + String.format("%.2f€", comision)
+                            : "Esta operación tiene una comisión del " + String.format("%.2f%%", cuentaEmpresa.getTipoInteresDescubierto()) 
+                                    + String.format("\s(%.2f€)",comision))
+                            + "\nEl saldo de la cuenta es: " + String.format("%.2f€", cuentaEmpresa.getSaldo()));
                     return true;
-
                 }
                 // Sólo puede haber descubiertos en una cuenta de empresa 
             }
@@ -222,8 +246,8 @@ public class Banco {
                 // Si la cuenta no es de Empresa y hay saldo suficiente se retira esa cantidad
             } else {
                 cuenta.setSaldo(cuenta.getSaldo() - cantidad);
-                System.out.println("Se ha retirado la cantidad de: " + String.format("%.2f", cantidad) + '€'
-                        + "\nEl nuevo saldo de la cuenta es: " + String.format("%.2f", cuenta.getSaldo()) + '€');
+                System.out.println("Se ha retirado la cantidad de: " + String.format("%.2f€", cantidad)
+                        + "\nEl nuevo saldo de la cuenta es: " + String.format("%.2f€", cuenta.getSaldo()));
                 return true;
             }
 

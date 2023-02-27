@@ -110,7 +110,7 @@ public abstract class CuentaBancaria implements Imprimible {
     public String devolverInfoString() {
         return "Titular de la cuenta\n" + titular.devolverInfoString()
                 + "\nDetalle de la cuenta"
-                + "\nSaldo: " + String.format("%.2f", saldo) + '€'
+                + "\nSaldo: " + String.format("%.2f€", saldo)
                 + "\nIBAN: " + iban;
     }
 

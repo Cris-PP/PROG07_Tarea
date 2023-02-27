@@ -123,9 +123,9 @@ public class CuentaCorrienteEmpresa extends CuentaCorriente {
     public String devolverInfoString() {
         return super.devolverInfoString()
                 + "\nTipo de cuenta: EMPRESA"
-                + "\nDescubierto máximo permitido: " + String.format("%.2f", maxDescubierto) + '€'
-                + "\nTipo de interés por descubierto: " + String.format("%.2f", tipoInteresDescubierto) + '%'
-                + "\nComisión fija por descubierto: " + String.format("%.2f", comisionFijaDescubierto) + '€';
+                + "\nDescubierto máximo permitido: " + String.format("%.2f€", maxDescubierto)
+                + "\nTipo de interés por descubierto: " + String.format("%.2f%%", tipoInteresDescubierto)
+                + "\nComisión fija por descubierto: " + String.format("%.2f€", comisionFijaDescubierto);
     }
 
 }

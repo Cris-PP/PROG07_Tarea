@@ -68,6 +68,6 @@ public class CuentaCorrientePersonal extends CuentaCorriente {
     public String devolverInfoString() {
         return super.devolverInfoString()
                 + "\nTipo de cuenta: PERSONAL"
-                + "\nComisión de mantenimiento anual: " + String.format("%.2f", comisionMantenimientoAnual) + '€';
+                + "\nComisión de mantenimiento anual: " + String.format("%.2f€", comisionMantenimientoAnual);
     }
 }

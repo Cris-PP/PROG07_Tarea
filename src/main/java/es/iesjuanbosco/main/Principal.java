@@ -17,14 +17,14 @@ public class Principal {
 
     /**
      * Scanner para la entrada de datos por teclado.
-     * 
+     *
      * @hidden
      */
     private static final Scanner SC = new Scanner(System.in).useLocale(Locale.forLanguageTag("es-ES"));
 
     /**
      * Instancia de Banco que gestiona y almacena las cuentas
-     * 
+     *
      * @hidden
      */
     private static final Banco BANCO = new Banco();
@@ -117,6 +117,7 @@ public class Principal {
         titular = new Persona(nombre, apellidos, dni);
         // Bucle de solicitud del tipo de cuenta 
         do {
+            boolean flagNoNumerico = true;
             try {
                 System.out.print("""
                                  
@@ -132,15 +133,16 @@ public class Principal {
                 SC.nextLine();
                 // Si el dato introducido no es un número entero se muestra un mensaje
             } catch (InputMismatchException e) {
-                System.out.println("¡El valor introducido no es válido!");
+                System.out.println("\n¡El valor introducido no es válido!");
                 SC.nextLine();
+                flagNoNumerico = false;
             }
             /*
              * Si el valor introducido es un número entero pero inferior a 1 y
              * superior a 3 se muestra un mensaje
              */
-            if (!(tipoCuenta >= 1 && tipoCuenta <= 3)) {
-                System.out.println("¡Opción no válida!");
+            if (!(tipoCuenta >= 1 && tipoCuenta <= 3) && flagNoNumerico) {
+                System.out.println("\n¡Valor fuera de rango (1-3)!");
             }
             /*
              * Mientras que la variable tipoCuenta no tenga un valor entre 1 y
@@ -367,13 +369,13 @@ public class Principal {
     public static void main(String[] args) {
 
 //        // DESCOMENTAR PARA CREAR OBJETOS PARA PRUEBAS
-//        Persona titular = new Persona("Juan", "Pérez", "12345678A");
-//        CuentaAhorro cuentaAhorro = new CuentaAhorro(titular, 1000.0, "ES12345678901234567890", 1.5);
-//        BANCO.abrirCuenta(cuentaAhorro);
-//        CuentaCorrientePersonal cuentaCorrientePersonal = new CuentaCorrientePersonal(titular, 2000.0, "ES12345678901234567891", "BBVA", 50.0);
-//        BANCO.abrirCuenta(cuentaCorrientePersonal);
-//        CuentaCorrienteEmpresa cuentaCorrienteEmpresa = new CuentaCorrienteEmpresa(titular, 5000.0, "ES12345678901234567892", "BANCO SANTANDER", 2000.0, 1.5, 30.0);
-//        BANCO.abrirCuenta(cuentaCorrienteEmpresa);
+        Persona titular = new Persona("Juan", "Pérez", "12345678A");
+        CuentaAhorro cuentaAhorro = new CuentaAhorro(titular, 1000.0, "ES12345678901234567890", 1.5);
+        BANCO.abrirCuenta(cuentaAhorro);
+        CuentaCorrientePersonal cuentaCorrientePersonal = new CuentaCorrientePersonal(titular, 2000.0, "ES12345678901234567891", "BBVA", 50.0);
+        BANCO.abrirCuenta(cuentaCorrientePersonal);
+        CuentaCorrienteEmpresa cuentaCorrienteEmpresa = new CuentaCorrienteEmpresa(titular, 5000.0, "ES12345678901234567892", "BANCO SANTANDER", 2000.0, 4.5, 30.0);
+        BANCO.abrirCuenta(cuentaCorrienteEmpresa);
         // Variables para almacenar temporalmente datos introducidos por el usuario
         String iban;
         double cantidad = 0;
@@ -641,7 +643,7 @@ public class Principal {
                              * usuario no cancela la operación se llama al
                              * método obtenerSaldo
                              */
-                            System.out.println("Saldo actual: " + BANCO.obtenerSaldo(iban) + '€');
+                            System.out.println("Saldo actual: " + String.format("%.2f€", BANCO.obtenerSaldo(iban)));
                             // Si no hay cuentas creadas se muestra un mensaje
                         } else {
                             System.out.println("¡Aún no hay cuentas creadas!");
@@ -669,8 +671,9 @@ public class Principal {
                  * Scanner
                  */
             } catch (InputMismatchException e) {
-                System.out.println("¡El valor introducido no es válido!");
+                System.out.println("\n¡El valor introducido no es válido!");
                 SC.nextLine();
+                System.out.print(MENSAJE_OPCION_CORTO);
             }
             /*
              * Si la opción introducida no es 0 ni 7 (mostrar menú completo y

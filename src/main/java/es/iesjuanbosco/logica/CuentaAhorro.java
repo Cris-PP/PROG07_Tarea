@@ -69,7 +69,7 @@ public class CuentaAhorro extends CuentaBancaria {
         return super.devolverInfoString()
                 + "\nTipo de cuenta: AHORRO"
                 + "\nTipo de Interés anual: "
-                + String.format("%.2f", tipoInteresAnual) + '%';
+                + String.format("%.2f%%", tipoInteresAnual);
     }
 
 }
