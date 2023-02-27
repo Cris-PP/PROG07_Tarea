@@ -138,7 +138,7 @@ public class Banco {
              * devuelve true
              */
             cuenta.setSaldo(cuenta.getSaldo() + cantidad);
-            System.out.println("Se ha ingresado la cantidad de: " + cantidad
+            System.out.println("Se ha ingresado la cantidad de: " + String.format("%.2f€",cantidad)
                     + "\nEl nuevo saldo de la cuenta es: " + String.format("%.2f€", cuenta.getSaldo()));
             return true;
         }

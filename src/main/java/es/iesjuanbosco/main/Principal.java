@@ -368,20 +368,25 @@ public class Principal {
      */
     public static void main(String[] args) {
 
-//        // DESCOMENTAR PARA CREAR OBJETOS PARA PRUEBAS
-        Persona titular = new Persona("Juan", "Pérez", "12345678A");
-        CuentaAhorro cuentaAhorro = new CuentaAhorro(titular, 1000.0, "ES12345678901234567890", 1.5);
-        BANCO.abrirCuenta(cuentaAhorro);
-        CuentaCorrientePersonal cuentaCorrientePersonal = new CuentaCorrientePersonal(titular, 2000.0, "ES12345678901234567891", "BBVA", 50.0);
-        BANCO.abrirCuenta(cuentaCorrientePersonal);
-        CuentaCorrienteEmpresa cuentaCorrienteEmpresa = new CuentaCorrienteEmpresa(titular, 5000.0, "ES12345678901234567892", "BANCO SANTANDER", 2000.0, 4.5, 30.0);
-        BANCO.abrirCuenta(cuentaCorrienteEmpresa);
+        // DESCOMENTAR PARA REALIZAR PRUEBAS SIN INTRODUCIR MANUALMENTE VARIAS CUENTAS, HAY UNA DE CADA
+//        Persona titular = new Persona("Juan", "Pérez", "12345678A");
+//        CuentaAhorro cuentaAhorro = new CuentaAhorro(titular, 1000.0, "ES12345678901234567890", 1.5);
+//        BANCO.abrirCuenta(cuentaAhorro);
+//        CuentaCorrientePersonal cuentaCorrientePersonal = new CuentaCorrientePersonal(titular, 2000.0, "ES12345678901234567891", "BBVA", 50.0);
+//        BANCO.abrirCuenta(cuentaCorrientePersonal);
+//        CuentaCorrienteEmpresa cuentaCorrienteEmpresa = new CuentaCorrienteEmpresa(titular, 5000.0, "ES12345678901234567892", "BANCO SANTANDER", 2000.0, 4.5, 30.0);
+//        BANCO.abrirCuenta(cuentaCorrienteEmpresa);
         // Variables para almacenar temporalmente datos introducidos por el usuario
         String iban;
         double cantidad = 0;
-        int opcion = 0;
+        /*
+         * ¡No inicializar opcion con 0 para que se muestre el mensaje corto
+         * cuando el bucle principal lanza excepción por primera vez sin haber
+         * llegado a introducir un valor válido diferente a 0!
+         */
+        int opcion = -1;
         // Flag de control de bucles
-        boolean flag;
+        boolean flag = false;
 
         // Constante de una cadena de caracteres con el menú completo
         final String MENU_COMPLETO = """
@@ -643,27 +648,35 @@ public class Principal {
                              * usuario no cancela la operación se llama al
                              * método obtenerSaldo
                              */
-                            System.out.println("Saldo actual: " + String.format("%.2f€", BANCO.obtenerSaldo(iban)));
+                            if (!iban.equals("X")) {
+                                System.out.println("Saldo actual: " + String.format("%.2f€", BANCO.obtenerSaldo(iban)));
+                            }
                             // Si no hay cuentas creadas se muestra un mensaje
                         } else {
                             System.out.println("¡Aún no hay cuentas creadas!");
                         }
                     }
-                    // Salir
-                    case 7 -> {
-                        // Se muestra un mensaje (La condición para salir está en el while)
+                    // Se muestra un mensaje y el programa finaliza (La condición para salir está en el while)
+                    case 7 ->
                         System.out.println("Programa finalizado.");
-                    }
-                    case 0 -> // Vuelve a mostrar el menú completo
+
+                    case 0 -> {
+                        /*
+                         * Se vuelve a asignar -1 a opcion para evitar que se
+                         * deje de mostrar el menú al lanzar una excepción
+                         */
+                        opcion = -1;
+                        // Vuelve a mostrar el menú completo
                         System.out.print("\n" + MENU_COMPLETO);
+
+                    }
                     /*
                      * Si se introduce un número que no esté comprendido entre
                      * el 0 y el 7 se muestra un mensaje
                      */
-                    default -> {
+                    default ->
                         System.out.println("La opción debe estar comprendida entre el 1 y el 7");
 
-                    }
                 }
                 /*
                  * Si el dato introducido no es un número se captura la
@@ -673,13 +686,12 @@ public class Principal {
             } catch (InputMismatchException e) {
                 System.out.println("\n¡El valor introducido no es válido!");
                 SC.nextLine();
-                System.out.print(MENSAJE_OPCION_CORTO);
             }
             /*
-             * Si la opción introducida no es 0 ni 7 (mostrar menú completo y
-             * salir), se muestra el mensaje corto.
+             * Si la opción introducida no es 0 (mostrar menú completo) ni 7
+             * (salir), se muestra el mensaje corto.
              */
-            if (opcion != 7 && opcion != 0) {
+            if ((opcion != 7 && opcion != 0) || flag) {
                 System.out.print(MENSAJE_OPCION_CORTO);
             }
             // Si el usuario introduce la opción 7 salimos del bucle y el programa finaliza
