@@ -369,7 +369,6 @@ public class Principal {
     public static void main(String[] args) {
 
         // DESCOMENTAR PARA REALIZAR PRUEBAS SIN INTRODUCIR MANUALMENTE VARIAS CUENTAS, HAY UNA DE CADA
-        
 //        Persona titular = new Persona("Juan", "Pérez", "12345678A");
 //        CuentaAhorro cuentaAhorro = new CuentaAhorro(titular, 1000.0, "ES12345678901234567890", 1.5);
 //        BANCO.abrirCuenta(cuentaAhorro);
@@ -382,14 +381,11 @@ public class Principal {
         // Variables para almacenar temporalmente datos introducidos por el usuario
         String iban;
         double cantidad = 0;
-        /*
-         * ¡No inicializar opcion con 0 para que se muestre el mensaje corto
-         * cuando el bucle principal lanza excepción por primera vez sin haber
-         * llegado a introducir un valor válido diferente a 0!
-         */
-        int opcion = -1;
-        // Flag de control de bucles
-        boolean flag = false;
+        int opcion = 0;
+        // Flag de controlde bucles
+        boolean flag;
+        // Flag para controlar el mensaje corto
+        boolean flagMensajeCorto;
 
         // Constante de una cadena de caracteres con el menú completo
         final String MENU_COMPLETO = """
@@ -414,6 +410,7 @@ public class Principal {
         // Se muestra el menú completo y después empieza el bucle principal
         System.out.print(MENU_COMPLETO);
         do {
+            flagMensajeCorto = true;
             try {
                 // Se solicita y almacena la opción
                 opcion = SC.nextInt();
@@ -664,11 +661,7 @@ public class Principal {
                         System.out.println("Programa finalizado.");
 
                     case 0 -> {
-                        /*
-                         * Se vuelve a asignar -1 a opcion para evitar que se
-                         * deje de mostrar el menú al lanzar una excepción
-                         */
-                        opcion = -1;
+                        flagMensajeCorto = false;
                         // Vuelve a mostrar el menú completo
                         System.out.print("\n" + MENU_COMPLETO);
 
@@ -677,9 +670,10 @@ public class Principal {
                      * Si se introduce un número que no esté comprendido entre
                      * el 0 y el 7 se muestra un mensaje
                      */
-                    default ->
+                    default -> {
                         System.out.println("La opción debe estar comprendida entre el 1 y el 7");
-
+                        flagMensajeCorto = false;
+                    }
                 }
                 /*
                  * Si el dato introducido no es un número se captura la
@@ -694,7 +688,7 @@ public class Principal {
              * Si la opción introducida no es 0 (mostrar menú completo) ni 7
              * (salir), se muestra el mensaje corto.
              */
-            if ((opcion != 7 && opcion != 0) || flag) {
+            if (flagMensajeCorto) {
                 System.out.print(MENSAJE_OPCION_CORTO);
             }
             // Si el usuario introduce la opción 7 salimos del bucle y el programa finaliza
