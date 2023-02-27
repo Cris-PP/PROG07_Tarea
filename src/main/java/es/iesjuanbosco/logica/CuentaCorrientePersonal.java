@@ -61,8 +61,6 @@ public class CuentaCorrientePersonal extends CuentaCorriente {
      *
      * @return una cadena que contiene información completa sobre la cuenta
      *
-     * @see CuentaCorriente#devolverInfoString() 
-     * {@inheritDoc}
      */
     @Override
     public String devolverInfoString() {

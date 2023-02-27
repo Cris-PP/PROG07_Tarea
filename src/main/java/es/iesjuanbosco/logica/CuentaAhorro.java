@@ -60,9 +60,6 @@ public class CuentaAhorro extends CuentaBancaria {
      *
      * @return String que contiene la información completa sobre la cuenta de
      *         ahorro
-     *
-     * @see CuentaCorriente#devolverInfoString()
-     * {@inheritDoc}
      */
     @Override
     public String devolverInfoString() {

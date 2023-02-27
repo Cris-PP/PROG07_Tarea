@@ -73,9 +73,6 @@ public abstract class CuentaCorriente extends CuentaBancaria {
      * entidades autorizadas cobrar recibos en la cuenta.
      *
      * @return String que contiene información sobre la cuenta
-     *
-     * @see CuentaBancaria#devolverInfoString()
-     * {@inheritDoc}
      */
     @Override
     public String devolverInfoString() {

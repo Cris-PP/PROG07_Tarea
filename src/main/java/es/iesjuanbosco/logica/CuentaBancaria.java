@@ -103,8 +103,7 @@ public abstract class CuentaBancaria implements Imprimible {
      *
      * @return una cadena que contiene información sobre la cuenta
      *
-     * @see Imprimible#devolverInfoString()      *
-     * {@inheritDoc}
+     * @see Imprimible#devolverInfoString() Imprimible.devolverInfoString()
      */
     @Override
     public String devolverInfoString() {

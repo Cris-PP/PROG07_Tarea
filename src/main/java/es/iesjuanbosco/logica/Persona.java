@@ -90,7 +90,7 @@ public class Persona implements Imprimible {
      * @return la información de la persona en forma de cadena de texto (nombre,
      *         apellidos y DNI)
      *
-     * @see Imprimible#devolverInfoString() {@inheritDoc}
+     * @see Imprimible#devolverInfoString() Imprimible.devolverInfoString() 
      */
     @Override
     public String devolverInfoString() {
