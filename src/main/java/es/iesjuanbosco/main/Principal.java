@@ -369,6 +369,7 @@ public class Principal {
     public static void main(String[] args) {
 
         // DESCOMENTAR PARA REALIZAR PRUEBAS SIN INTRODUCIR MANUALMENTE VARIAS CUENTAS, HAY UNA DE CADA
+        
 //        Persona titular = new Persona("Juan", "Pérez", "12345678A");
 //        CuentaAhorro cuentaAhorro = new CuentaAhorro(titular, 1000.0, "ES12345678901234567890", 1.5);
 //        BANCO.abrirCuenta(cuentaAhorro);
@@ -376,6 +377,8 @@ public class Principal {
 //        BANCO.abrirCuenta(cuentaCorrientePersonal);
 //        CuentaCorrienteEmpresa cuentaCorrienteEmpresa = new CuentaCorrienteEmpresa(titular, 5000.0, "ES12345678901234567892", "BANCO SANTANDER", 2000.0, 4.5, 30.0);
 //        BANCO.abrirCuenta(cuentaCorrienteEmpresa);
+
+
         // Variables para almacenar temporalmente datos introducidos por el usuario
         String iban;
         double cantidad = 0;
