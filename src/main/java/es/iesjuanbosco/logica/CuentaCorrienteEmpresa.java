@@ -1,7 +1,7 @@
 package es.iesjuanbosco.logica;
 
 /**
- * Esta clase representa una cuenta corriente de una empresa. Hereda de la clase
+ * Esta subclase representa una cuenta corriente de una empresa. Hereda de la clase
  * CuentaCorriente. Posee atributos adicionales para el descubierto permitido,
  * la comisión por descubierto y el tipo de interés por descubierto.
  * <p>
