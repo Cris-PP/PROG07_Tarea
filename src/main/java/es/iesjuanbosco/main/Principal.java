@@ -421,7 +421,7 @@ public class Principal {
                      */
                     case 1 -> {
                         // Si se ha alcanzado el límite de cuentas se muestra un mensaje
-                        if (BANCO.getContadorCuentas() < 100) {
+                        if (BANCO.getContadorCuentas() == 100) {
                             System.out.println("¡Se ha alcanzado el límite de cuentas!");
                         } else {
                         // Si hay espacio para más cuentas se hace la llamada al método con el formulario
